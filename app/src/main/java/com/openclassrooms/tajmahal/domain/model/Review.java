@@ -22,6 +22,7 @@ public class Review {
     /** The rating provided by the user. Typically out of 5 or 10. */
     private int rate;
 
+
     /**
      * Constructs a new Review instance.
      *
@@ -37,6 +38,17 @@ public class Review {
         this.rate = rate;
     }
 
+    public class ReviewStats {
+        public final double average;
+        public final int totalReviews;
+        public final int[] percentages; // index 0 → 1 étoile, index 4 → 5 étoiles
+
+        public ReviewStats(double average, int totalReviews, int[] percentages) {
+            this.average = average;
+            this.totalReviews = totalReviews;
+            this.percentages = percentages;
+        }
+    }
     /**
      * Returns the username of the reviewer.
      *
@@ -99,6 +111,8 @@ public class Review {
     public int getRate() {
         return rate;
     }
+
+
 
     /**
      * Sets or updates the rating given by the reviewer.

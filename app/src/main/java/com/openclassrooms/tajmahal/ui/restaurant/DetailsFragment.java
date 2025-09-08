@@ -17,8 +17,13 @@ import android.view.Window;
 import android.widget.Toast;
 
 import com.openclassrooms.tajmahal.R;
+import com.openclassrooms.tajmahal.data.service.RestaurantFakeApi;
 import com.openclassrooms.tajmahal.databinding.FragmentDetailsBinding;
 import com.openclassrooms.tajmahal.domain.model.Restaurant;
+import com.openclassrooms.tajmahal.domain.model.Review;
+
+import java.util.List;
+import java.util.Locale;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -57,13 +62,97 @@ public class DetailsFragment extends Fragment {
      * @param savedInstanceState If non-null, this fragment is being re-constructed
      * from a previous saved state as given here.
      */
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setupUI(); // Sets up user interface components.
-        setupViewModel(); // Prepares the ViewModel for the fragment.
-        detailsViewModel.getTajMahalRestaurant().observe(requireActivity(), this::updateUIWithRestaurant); // Observes changes in the restaurant data and updates the UI accordingly.
+
+        setupUI();
+        setupViewModel();
+
+
+        detailsViewModel.getTajMahalRestaurant().observe(getViewLifecycleOwner(), this::updateUIWithRestaurant);
+
+
+        detailsViewModel.getReviewStats().observe(getViewLifecycleOwner(), stats -> {
+            if (stats == null) return;
+
+            // Mettre à jour UI
+            binding.RatingNumber.setText(String.format(Locale.getDefault(), "%.1f", stats.average));
+            binding.ratingBar.setRating((float) stats.average);
+            binding.ReviewCount.setText("(" + stats.totalReviews + ")");
+            binding.progressBar1.setProgress(stats.percentages[0]);
+            binding.progressBar2.setProgress(stats.percentages[1]);
+            binding.progressBar3.setProgress(stats.percentages[2]);
+            binding.progressBar4.setProgress(stats.percentages[3]);
+            binding.progressBar5.setProgress(stats.percentages[4]);
+        });
+
+        // Appel du chargement des reviews dans le ViewModel
+        detailsViewModel.loadReviews();
+
+
+        //Changement de page lors du click sur "Laisser un avis"
+        binding.addReview.setOnClickListener(v -> {
+            //Remplacement du fragment actuel par le AddReviewFragment
+            requireActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, AddReviewFragment.newInstance())
+                    .addToBackStack(null)
+                    .commit();
+        });
+
     }
+
+
+    //Première méthode changé pour non respect du MVVM
+//    private void loadReviews() {
+//        //Récupération des reviews
+//        RestaurantFakeApi api = new RestaurantFakeApi();
+//        List<Review> reviews = api.getReviews();
+//
+//        //Initialisation variable 'average' en décimales
+//        double average = 0.0;
+//
+//        if (!reviews.isEmpty()) {
+//            int total = 0;
+//            for (Review review : reviews) {
+//                //On ajoute chaque note au total
+//                total += review.getRate();
+//            }
+//            // Moyenne = total / nombre de reviews
+//            average = (double) total / reviews.size();
+//        }
+//
+//        binding.RatingNumber.setText(String.format(Locale.getDefault(), "%.1f", average));
+//        binding.ratingBar.setRating((float) average);
+//        binding.ReviewCount.setText("(" + reviews.size() + ")");
+//
+//
+//        int[] counts = new int[5];
+//        for (Review review : reviews) {
+//            int rate = review.getRate();
+//            //On vérifié qu'il n'ya pas de note 0 étoiles
+//            // S'il y a une note on incrémente le counts - 1 ( si note 1 etoiles on incrémente counts[0] qui contiendra le nombre de notes 1 étoiles)
+//            if (rate >= 1 && rate <= 5) counts[rate - 1]++;
+//        }
+//
+//        int totalReviews = reviews.size();
+//
+//        //Calcul des pourcentages de présence de chaque note (si 2 reviews sur 5 ont 1 étoile → 2*100/5 = 40 → progress bar 1 affiche 40%)
+//        binding.progressBar1.setProgress(counts[0] * 100 / totalReviews);
+//        binding.progressBar2.setProgress(counts[1] * 100 / totalReviews);
+//        binding.progressBar3.setProgress(counts[2] * 100 / totalReviews);
+//        binding.progressBar4.setProgress(counts[3] * 100 / totalReviews);
+//        binding.progressBar5.setProgress(counts[4] * 100 / totalReviews);
+//    }
+
+
+
+
+
+
+
+
 
     /**
      * Creates and returns the view hierarchy associated with the fragment.
