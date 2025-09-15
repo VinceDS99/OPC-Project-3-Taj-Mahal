@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- Separator haut -->
+    <View
+        android:id="@+id/reviewSeparatorTop"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DADADA" />
+
+    <!-- Contenu de l'avis -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/reviewProfileImage"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/profile_picture"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp">
+
+            <TextView
+                android:id="@+id/reviewUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nom"
+                android:textColor="#666666"
+                android:textSize="12sp"
+                android:fontFamily="@font/jakarta_semibold"/>
+
+            <RatingBar
+                android:id="@+id/reviewRatingBar"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:stepSize="1"
+                android:isIndicator="true"/>
+
+            <TextView
+                android:id="@+id/reviewComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Commentaire"
+                android:textColor="#666666"
+                android:textSize="10sp"
+                android:fontFamily="@font/jakarta_regular"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

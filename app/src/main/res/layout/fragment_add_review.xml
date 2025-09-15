@@ -45,7 +45,6 @@
         android:layout_marginStart="20dp"
         app:shapeAppearanceOverlay="@style/CircleImageView"/>
 
-
     <LinearLayout
         android:id="@+id/userInfoLayout"
         android:layout_width="0dp"
@@ -64,8 +63,7 @@
             android:text="Manon Garcia"
             android:fontFamily="@font/jakarta_semibold"
             android:textColor="#666666"
-            android:textStyle="bold"
-            android:textSize="16sp"/>
+            android:textSize="12sp"/>
 
         <RatingBar
             android:id="@+id/ratingBar"
@@ -78,12 +76,10 @@
             android:isIndicator="false"/>
     </LinearLayout>
 
-
-
     <com.google.android.material.chip.Chip
         android:id="@+id/btnSubmit"
         style="@style/Widget.Material3.Chip.Suggestion"
-        android:layout_width="wrap_content"
+        android:layout_width="73dp"
         android:layout_height="wrap_content"
         android:text="@string/validate"
         android:textColor="@color/white"
@@ -91,12 +87,10 @@
         app:chipBackgroundColor="#CF2F2F"
         app:chipCornerRadius="12dp"
         app:chipStrokeColor="#CF2F2F"
-        app:textEndPadding="0dp"
-        app:textStartPadding="0dp"
+        android:padding="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/profileImage"
         app:layout_constraintBottom_toBottomOf="@id/profileImage"/>
-
 
     <!-- Zone de texte pour l'avis -->
     <com.google.android.material.card.MaterialCardView
@@ -114,7 +108,7 @@
         <EditText
             android:id="@+id/etReview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="53dp"
             android:hint="@string/share"
             android:textSize="12sp"
             android:fontFamily="@font/jakarta_regular"
@@ -125,35 +119,17 @@
             android:background="@android:color/transparent"/>
     </com.google.android.material.card.MaterialCardView>
 
-
-
-
-
-
-
-
-
-
-    <!-- ScrollView contenant les reviews -->
-    <ScrollView
-        android:id="@+id/reviewScroll"
+    <!-- RecyclerView pour afficher toutes les reviews -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewReviews"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@id/share"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="16dp">
-
-        <LinearLayout
-            android:id="@+id/reviewContainer"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </ScrollView>
-
-
+        android:layout_marginTop="16dp"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

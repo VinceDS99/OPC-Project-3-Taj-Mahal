@@ -41,6 +41,10 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+    testOptions {
+        execution = "ANDROIDX_TEST_ORCHESTRATOR"
+    }
 }
 
 // Configure Kotlin JVM Toolchain pour Java 17
@@ -69,4 +73,8 @@ dependencies {
     // Glide
     implementation("com.github.bumptech.glide:glide:4.15.1")
     kapt("com.github.bumptech.glide:compiler:4.15.1")
+
+    androidTestUtil("androidx.test:orchestrator:1.4.2")
+
+
 }
